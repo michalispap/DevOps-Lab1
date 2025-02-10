@@ -22,8 +22,7 @@ def add(student=None):
     result = students_collection.insert_one(student_data)
 
     student.student_id = str(result.inserted_id)
-    #return student.student_id
-    return {"student_id": student.student_id}, 200
+    return student.student_id
 
 def get_by_id(student_id=None, subject=None):
 
