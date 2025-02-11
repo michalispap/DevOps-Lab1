@@ -60,11 +60,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Student'
+                type: object
+                format: Student
+                x-content-type: application/json
         "400":
-          description: Invalid ID
+          description: Bad Request
         "404":
-          description: Not found
+          description: Student with specified student_id cannot be found
       x-openapi-router-controller: swagger_server.controllers.default_controller
   /student:
     post:
@@ -99,19 +101,28 @@ components:
       - last_name
       type: object
       properties:
-        id:
+        student_id:
           type: integer
+          example: 123
         first_name:
           type: string
+          example: Lewis
         last_name:
           type: string
+          example: Hamilton
         grade_records:
           type: array
           items:
             $ref: '#/components/schemas/GradeRecord'
       example:
-        first_name: John
-        last_name: Doe
+        student_id: 123
+        last_name: Hamilton
+        grade_records:
+        - grade: 7
+          subject_name: DevOps
+        - grade: 7
+          subject_name: DevOps
+        first_name: Lewis
     GradeRecord:
       required:
       - grade
@@ -120,7 +131,13 @@ components:
       properties:
         subject_name:
           type: string
+          example: DevOps
         grade:
           maximum: 10
           minimum: 0
           type: number
+          format: float
+          example: 7
+      example:
+        grade: 7
+        subject_name: DevOps

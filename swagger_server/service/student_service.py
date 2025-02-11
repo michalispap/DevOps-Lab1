@@ -1,8 +1,9 @@
 import os
 from pymongo import MongoClient
-from bson.objectid import ObjectId
+from bson import json_util, ObjectId
+import json
 
-mongo_uri = os.environ.get("MONGO_URI", "mongodb://localhost:27017")
+mongo_uri = os.environ.get("MONGO_URI", "mongodb://mongo:27017")
 client = MongoClient(mongo_uri)
 
 db = client.student_db
@@ -31,7 +32,8 @@ def get_by_id(student_id=None, subject=None):
     if not student:
         return 'not found', 404
 
-    student['student_id'] = student_id
+    student['student_id'] = str(student['_id'])
+    student['_id'] = str(student['_id'])
     print(student)
     return student
 
